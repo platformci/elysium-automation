@@ -1,10 +1,13 @@
+require 'yaml'
 Given /^I am in Login page$/ do
 	visit_page(LoginPage)
 end
 And /^I will login with demo user credentials$/ do
 	visit_page(LoginPage) do |page|
-		page.username = 'demo_admin'
-		page.password = 'demo_admin'
+		path = './config/yml/application.yml'
+    	yml = YAML::load(File.open(path))
+		page.username = yml['login']['user']
+		page.password = yml['login']['password'] 
 		page.organization_element[1].click
 		page.login
 
